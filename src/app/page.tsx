@@ -43,7 +43,7 @@ export default function Home() {
 
       <main className="flex flex-col relative z-10">
         {/* Hero Section */}
-        <section className="relative px-6 py-12 md:px-12 md:py-20 border-brutal-b border-t-4 border-black bg-transparent overflow-hidden mt-6">
+        <section className="relative px-6 py-12 md:px-12 md:py-20 border-brutal-b bg-transparent overflow-hidden mt-6">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 relative z-10">
             {/* Decorative Background Elements */}
             <div className="absolute top-[-50px] right-[-100px] w-96 h-96 bg-cyber-yellow rounded-full blur-3xl opacity-50 pointer-events-none" />
@@ -134,8 +134,8 @@ export default function Home() {
         </section>
 
         {/* The Metrics / Features Section */}
-        <section id="technology" className="px-6 py-20 md:px-12 md:py-32 bg-cream border-brutal-b">
-          <div className="text-center mb-20">
+        <section id="technology" className="px-6 py-20 md:px-12 md:py-32 bg-transparent border-brutal-b relative">
+          <div className="text-center mb-20 relative z-10">
             <GradientHeading 
               variant="default" 
               size="xl" 
@@ -196,11 +196,10 @@ export default function Home() {
             </div>
             
             <div className="flex flex-col items-center md:items-end gap-2 z-10">
-              <div className="text-xs font-mono font-bold uppercase tracking-widest text-white/40">Powered By</div>
+              <div className="text-xs font-mono font-bold uppercase tracking-widest text-white/40">Connect</div>
               <div className="flex gap-2">
-                <span className="bg-white/10 px-3 py-1 text-xs font-mono font-bold uppercase border border-white/20">Next.js</span>
-                <span className="bg-white/10 px-3 py-1 text-xs font-mono font-bold uppercase border border-white/20">React</span>
-                <span className="bg-white/10 px-3 py-1 text-xs font-mono font-bold uppercase border border-white/20">Vercel</span>
+                <a href="https://github.com/Abhishekislinux" target="_blank" rel="noopener noreferrer" className="bg-white/10 px-3 py-1 text-xs font-mono font-bold uppercase border border-white/20 hover:bg-white hover:text-black hover:border-black transition-colors">GitHub</a>
+                <a href="https://twitter.com/Abhishekislinux" target="_blank" rel="noopener noreferrer" className="bg-white/10 px-3 py-1 text-xs font-mono font-bold uppercase border border-white/20 hover:bg-white hover:text-black hover:border-black transition-colors">Twitter</a>
               </div>
             </div>
 
