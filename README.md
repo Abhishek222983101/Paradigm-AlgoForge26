@@ -1,4 +1,7 @@
+
 # CogniStream
+
+# CogniStream 
 
 ![CogniStream Banner](./public/hero-diagram.png)
 
@@ -35,7 +38,7 @@ We track three core kinematic markers:
 
 The image below outlines the full workflow from the edge device (Smartphone Keyboard) to the Cloud ML Engine, and finally to the Caregiver Dashboard.
 
-<img src="./architecture.jpg" alt="Cognitive Monitoring Workflow Architecture Diagram" width="100%" />
+<img src="./public/architecture.jpg" alt="Cognitive Monitoring Workflow Architecture Diagram" width="100%" />
 
 ---
 
