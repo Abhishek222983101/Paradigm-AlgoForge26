@@ -1,6 +1,4 @@
 
-# CogniStream
-
 # CogniStream 
 
 ![CogniStream Banner](./public/hero-diagram.png)
