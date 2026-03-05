@@ -57,7 +57,7 @@ Building a native OS-level keyboard background service is impossible within a 24
 
 ---
 
-## 🧪 How to Test the Live MVP
+## 👨‍💻 How to Test the Live MVP
 
 To experience the "Smoke and Mirrors" live demo, follow these exact steps:
 
@@ -88,4 +88,4 @@ While this MVP is a web simulator, the actual production build will consist of:
 4.  **Caregiver Alerts:** Automated SMS/Email push notifications when the ML engine detects a sustained 7-day downward trend in cognitive fluidity.
 
 ---
-*Built with ❤️ for COHERENCE 2026*
+
