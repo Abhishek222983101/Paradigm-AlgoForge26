@@ -32,7 +32,7 @@ export const INDIAN_CITIES: GeoLocation[] = [
   { city: "Lucknow", state: "Uttar Pradesh", lat: 26.8467, lng: 80.9462 },
   { city: "Bhopal", state: "Madhya Pradesh", lat: 23.2599, lng: 77.4126 },
   { city: "Patna", state: "Bihar", lat: 25.5941, lng: 85.1376 },
-  { city: " Kochi", state: "Kerala", lat: 9.9312, lng: 76.2673 },
+  { city: "Kochi", state: "Kerala", lat: 9.9312, lng: 76.2673 },
   { city: "Vellore", state: "Tamil Nadu", lat: 12.9325, lng: 79.1328 },
   { city: "Nagpur", state: "Maharashtra", lat: 21.1458, lng: 79.0882 },
   { city: "Indore", state: "Madhya Pradesh", lat: 22.7196, lng: 75.8577 },
@@ -53,7 +53,7 @@ export const INDIAN_CITIES: GeoLocation[] = [
   { city: "Srinagar", state: "Jammu & Kashmir", lat: 34.0837, lng: 74.7973 },
   { city: "Madurai", state: "Tamil Nadu", lat: 9.9252, lng: 78.1198 },
   { city: "Tiruchirappalli", state: "Tamil Nadu", lat: 10.7905, lng: 78.7045 },
-  { city: " Mysore", state: "Karnataka", lat: 12.2958, lng: 76.6394 },
+  { city: "Mysore", state: "Karnataka", lat: 12.2958, lng: 76.6394 },
 ];
 
 export const SAMPLE_COORDINATES: Record<string, Coordinates> = Object.fromEntries(
@@ -62,8 +62,8 @@ export const SAMPLE_COORDINATES: Record<string, Coordinates> = Object.fromEntrie
 
 export function getCityCoordinates(city: string, state?: string): Coordinates | null {
   const cityData = INDIAN_CITIES.find(c => 
-    c.city.toLowerCase() === city.toLowerCase() ||
-    c.city.toLowerCase().includes(city.toLowerCase())
+    c.city.toLowerCase().trim() === city.toLowerCase().trim() ||
+    c.city.toLowerCase().trim().includes(city.toLowerCase().trim())
   );
   if (cityData) {
     if (state && cityData.state.toLowerCase() !== state.toLowerCase()) {
@@ -97,74 +97,6 @@ export function getNearbyCities(center: Coordinates, radiusKm: number): GeoLocat
   });
 }
 
-const getApiKey = () => {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-  if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') {
-    console.warn('Google Maps API key not configured. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.local');
-    return '';
-  }
-  return apiKey;
-};
-
-export async function getDistanceMatrix(
-  origins: string,
-  destinations: string[]
-): Promise<DistanceResult[] | null> {
-  const apiKey = getApiKey();
-  if (!apiKey) return null;
-
-  try {
-    const destStr = destinations.join('|');
-    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origins)}&destinations=${encodeURIComponent(destStr)}&key=${apiKey}`;
-    
-    const response = await fetch(url);
-    const data = await response.json();
-    
-    if (data.status === 'OK' && data.rows[0]?.elements) {
-      return data.rows[0].elements.map((element: any) => {
-        if (element.status === 'OK') {
-          return {
-            distance: element.distance.text,
-            distanceValue: element.distance.value,
-            duration: element.duration.text,
-            durationValue: element.duration.value,
-          };
-        }
-        return {
-          distance: 'N/A',
-          distanceValue: -1,
-          duration: 'N/A',
-          durationValue: -1,
-        };
-      });
-    }
-    return null;
-  } catch (error) {
-    console.error('Distance Matrix API error:', error);
-    return null;
-  }
-}
-
-export async function geocodeAddress(address: string): Promise<Coordinates | null> {
-  const apiKey = getApiKey();
-  if (!apiKey) return null;
-
-  try {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    
-    if (data.status === 'OK' && data.results[0]) {
-      const location = data.results[0].geometry.location;
-      return { lat: location.lat, lng: location.lng };
-    }
-    return null;
-  } catch (error) {
-    console.error('Geocoding error:', error);
-    return null;
-  }
-}
-
 export function getCoordinatesForLocation(location: string): Coordinates | null {
   const normalizedLocation = location.trim();
   if (normalizedLocation in SAMPLE_COORDINATES) {
@@ -173,4 +105,83 @@ export function getCoordinatesForLocation(location: string): Coordinates | null 
   const cityMatch = getCityCoordinates(normalizedLocation);
   if (cityMatch) return cityMatch;
   return null;
+}
+
+export async function getDistanceMatrix(
+  origins: string,
+  destinations: string[]
+): Promise<DistanceResult[] | null> {
+  if (!origins || !destinations || destinations.length === 0) {
+    return null;
+  }
+
+  try {
+    const response = await fetch('/api/maps/distance', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ origins, destinations }),
+    });
+
+    if (!response.ok) {
+      console.error('Distance Matrix API error: HTTP', response.status);
+      return null;
+    }
+
+    const data = await response.json();
+
+    if (data.status === 'OK' && data.results) {
+      return data.results.map((result: any) => ({
+        distance: result.distance,
+        distanceValue: result.distanceValue,
+        duration: result.duration,
+        durationValue: result.durationValue,
+      }));
+    }
+
+    console.error('Distance Matrix API error:', data.error || data.status);
+    return null;
+  } catch (error) {
+    console.error('Distance Matrix API error:', error);
+    return null;
+  }
+}
+
+export async function geocodeAddress(address: string): Promise<Coordinates | null> {
+  if (!address) {
+    return null;
+  }
+
+  const fallbackCoords = getCoordinatesForLocation(address);
+  if (fallbackCoords) {
+    return fallbackCoords;
+  }
+
+  try {
+    const response = await fetch('/api/maps/geocode', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ address }),
+    });
+
+    if (!response.ok) {
+      console.error('Geocoding API error: HTTP', response.status);
+      return null;
+    }
+
+    const data = await response.json();
+
+    if (data.status === 'OK' && data.coordinates) {
+      return data.coordinates;
+    }
+
+    console.error('Geocoding API error:', data.error || data.status);
+    return null;
+  } catch (error) {
+    console.error('Geocoding API error:', error);
+    return null;
+  }
 }
