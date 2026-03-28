@@ -4,94 +4,123 @@
   --font-heading: var(--font-heading), sans-serif;
   --font-mono: var(--font-mono), monospace;
 
-  /* Brutalist Palette */
-  --color-cream: #FEF7CD;
-  --color-cyber-yellow: #FFD700;
-  --color-lime-green: #A7F3D0;
-  --color-hot-coral: #FF6B6B;
-  --color-pure-black: #000000;
+  /* Clinical Blueprint Palette */
+  --color-paper: #EAE8E3;
+  --color-cream: #F5F5F3;
+  --color-charcoal: #0F0F0F;
+  --color-cobalt: #0047AB;
+  --color-iodine: #FF5722;
+  --color-surgical: #00A36C;
+  --color-white: #FFFFFF;
   
-  --color-accent: var(--color-hot-coral);
-  --color-background: var(--color-cream);
-  --color-foreground: var(--color-pure-black);
+  --color-accent: var(--color-cobalt);
+  --color-background: var(--color-paper);
+  --color-foreground: var(--color-charcoal);
+  
+  /* Status Colors for Healthcare */
+  --color-eligible: #2E8B57;
+  --color-ineligible: #A52A2A;
+  --color-warning: #FF5722;
 }
 
 @layer utilities {
-  .border-brutal {
-    border-width: 4px;
-    border-color: #000000;
+  .border-clinical {
+    border-width: 2px;
+    border-color: #0F0F0F;
   }
   
-  .border-brutal-b {
-    border-bottom-width: 4px;
-    border-bottom-color: #000000;
+  .border-clinical-b {
+    border-bottom-width: 2px;
+    border-bottom-color: #0F0F0F;
   }
   
-  .border-brutal-r {
-    border-right-width: 4px;
-    border-right-color: #000000;
+  .border-clinical-r {
+    border-right-width: 2px;
+    border-right-color: #0F0F0F;
   }
   
-  .border-brutal-t {
-    border-top-width: 4px;
-    border-top-color: #000000;
+  .border-clinical-t {
+    border-top-width: 2px;
+    border-top-color: #0F0F0F;
   }
 
-  /* The signature brutalist drop shadow */
-  .shadow-brutal {
-    box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
-  }
-  
-  /* Hard offset, smaller */
-  .shadow-brutal-sm {
-    box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+  .border-clinical-l {
+    border-left-width: 2px;
+    border-left-color: #0F0F0F;
   }
 
-  /* Interactive button states - pressing the button physically down */
-  .brutal-btn {
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 100ms;
-    border-width: 4px;
-    border-color: #000000;
-    box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+  .shadow-clinical {
+    box-shadow: 3px 3px 0px 0px rgba(15, 15, 15, 1);
+  }
+  
+  .shadow-clinical-sm {
+    box-shadow: 2px 2px 0px 0px rgba(15, 15, 15, 1);
+  }
+
+  .clinical-btn {
+    transition: background-color 0ms, color 0ms, border-color 0ms;
+    border-width: 2px;
+    border-color: #0F0F0F;
+    box-shadow: 3px 3px 0px 0px rgba(15, 15, 15, 1);
     font-family: var(--font-heading);
-    font-weight: 800;
+    font-weight: 700;
   }
   
-  .brutal-btn:active {
-    transform: translate(8px, 8px);
-    box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
-  }
-
-  .brutal-btn:hover {
-    background-color: #000000;
-    color: #ffffff;
+  .clinical-btn:hover {
+    background-color: #0F0F0F;
+    color: #FFFFFF;
   }
   
-  /* Brutalist Halftone Dot Pattern */
-  .bg-dot-pattern {
-    background-image: radial-gradient(circle, #000000 2px, transparent 2.5px);
-    background-size: 24px 24px;
-    background-position: 0 0, 12px 12px;
-    background-attachment: fixed; /* Keeps dots static while scrolling */
+  .clinical-btn:active {
+    box-shadow: 1px 1px 0px 0px rgba(15, 15, 15, 1);
+    transform: translate(2px, 2px);
   }
 
-  /* Dark Grid Pattern for Black Sections */
-  .bg-grid-pattern-dark {
-    background-size: 40px 40px;
+  .bg-grid-clinical {
+    background-size: 20px 20px;
     background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      linear-gradient(to right, rgba(15, 15, 15, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15, 15, 15, 0.04) 1px, transparent 1px);
   }
 
-  /* To simulate grain/noise in background */
+  .bg-dot-pattern {
+    background-image: radial-gradient(circle, rgba(15, 15, 15, 0.06) 1px, transparent 1.5px);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+    background-attachment: fixed;
+  }
+
+  .bg-grid-pattern-dark {
+    background-size: 24px 24px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  }
+
   .bg-noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+  
+  .font-data {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum" on, "lnum" on;
+  }
+  
+  .terminal-output {
+    background-color: #0F0F0F;
+    color: #00A36C;
+    font-family: var(--font-mono);
+    padding: 1rem;
+    border: 2px solid #0F0F0F;
   }
 }
 
 body {
-  background-color: var(--color-cream);
-  color: var(--color-pure-black);
+  background-color: var(--color-paper);
+  color: var(--color-charcoal);
+}
+
+::selection {
+  background-color: #0F0F0F;
+  color: #FFFFFF;
 }

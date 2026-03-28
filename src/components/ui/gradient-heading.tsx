@@ -5,18 +5,16 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const headingVariants = cva(
-  "tracking-tighter pb-3 bg-clip-text text-transparent font-heading uppercase drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]",
+  "tracking-tight font-heading uppercase",
   {
     variants: {
       variant: {
-        default:
-          "bg-gradient-to-t from-black to-neutral-800",
-        pink: "bg-gradient-to-t from-hot-coral to-[#ff8c8c]",
-        light: "bg-gradient-to-t from-neutral-200 to-white",
-        secondary:
-          "bg-gradient-to-t from-neutral-500 to-neutral-700",
-        lime: "bg-gradient-to-t from-[#60d69f] to-lime-green drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]",
-        cyber: "bg-gradient-to-t from-[#cca800] to-cyber-yellow drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+        default: "text-charcoal",
+        cobalt: "text-cobalt",
+        surgical: "text-surgical",
+        iodine: "text-iodine",
+        light: "text-white",
+        muted: "text-charcoal/60",
       },
       size: {
         default: "text-2xl sm:text-3xl lg:text-4xl",
@@ -31,12 +29,12 @@ const headingVariants = cva(
         xxxl: "text-5xl sm:text-6xl lg:text-[8rem] leading-[1]",
       },
       weight: {
-        default: "font-black",
+        default: "font-bold",
         thin: "font-thin",
         base: "font-normal",
         semi: "font-semibold",
         bold: "font-bold",
-        black: "font-black",
+        black: "font-bold",
       },
     },
     defaultVariants: {
@@ -55,7 +53,7 @@ export interface HeadingProps extends VariantProps<typeof headingVariants> {
 
 const GradientHeading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
   ({ asChild, variant, weight, size, className, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : "h3" // default to 'h3' if not a child
+    const Comp = asChild ? Slot : "h3"
     return (
       <Comp ref={ref} {...props} className={cn("block", className)}>
         <span className={cn(headingVariants({ variant, size, weight }))}>
@@ -68,18 +66,8 @@ const GradientHeading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 
 GradientHeading.displayName = "GradientHeading"
 
-// Manually define the variant types
-export type Variant = "default" | "pink" | "light" | "secondary" | "lime" | "cyber"
-export type Size =
-  | "default"
-  | "xxs"
-  | "xs"
-  | "sm"
-  | "md"
-  | "lg"
-  | "xl"
-  | "xxl"
-  | "xxxl"
+export type Variant = "default" | "cobalt" | "surgical" | "iodine" | "light" | "muted"
+export type Size = "default" | "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xll" | "xxl" | "xxxl"
 export type Weight = "default" | "thin" | "base" | "semi" | "bold" | "black"
 
 export { GradientHeading, headingVariants }
